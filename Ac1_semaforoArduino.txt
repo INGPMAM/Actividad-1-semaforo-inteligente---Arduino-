@@ -1,0 +1,53 @@
+int sensorGas = A0;   
+int piezo = 8;        
+int ledVerde = 11;
+int ledAmarillo = 12;
+int ledRojo = 13;
+
+int valorGas = 300; 
+
+void setup() {
+  Serial.begin(9600); 
+  pinMode(sensorGas, INPUT);
+  pinMode(piezo, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledAmarillo, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
+  
+  // Mensaje inicial en la pantalla
+  Serial.println("--- Sistema Alarma Listo ---");
+  Serial.print("Valor actual: ");
+  Serial.println(valorGas);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    valorGas = Serial.parseInt();
+    
+    // MUESTRA EL NÚMERO: Esto imprimirá el valor escrito en el Monitor Serie
+    Serial.print("Nuevo valor ingresado: ");
+    Serial.println(valorGas);
+  }
+
+  // COMPROBACIÓN CON TU UMBRAL DE 600
+  if (valorGas >= 600) {
+    tone(piezo, 1000);            
+    digitalWrite(ledRojo, HIGH);   
+    digitalWrite(ledAmarillo, LOW);
+    digitalWrite(ledVerde, LOW);
+  } 
+  else if (valorGas >= 400 && valorGas < 600) {
+    noTone(piezo);                 
+    digitalWrite(ledRojo, LOW);
+    digitalWrite(ledAmarillo, HIGH); 
+    digitalWrite(ledVerde, LOW);
+  } 
+  else {
+    noTone(piezo);                 
+    digitalWrite(ledRojo, LOW);
+    digitalWrite(ledAmarillo, LOW);
+    digitalWrite(ledVerde, HIGH);   
+  }
+  delay(100); 
+}
+
