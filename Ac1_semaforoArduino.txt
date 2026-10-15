@@ -29,7 +29,7 @@ void loop() {
     Serial.println(valorGas);
   }
 
-  // COMPROBACIÓN CON TU UMBRAL DE 600
+  // COMPROBACIÓN CON UMBRAL DE 600
   if (valorGas >= 600) {
     tone(piezo, 1000);            
     digitalWrite(ledRojo, HIGH);   
